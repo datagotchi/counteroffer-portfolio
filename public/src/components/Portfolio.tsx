@@ -80,18 +80,37 @@ const Portfolio = () => {
     tagFilter,
   ]);
 
+  const educationExperiences = useMemo(() => {
+    if (portfolio?.education) {
+      return portfolio.education;
+    }
+    return [];
+  }, [portfolio?.education]);
+
+  const goToElementFromId = (elementId: string) => {
+    document.getElementById(elementId)?.scrollIntoView();
+  };
+
+  const goToExperience = useCallback(
+    (experimentId: number) => {
+      const experience = [...filteredExperiences, ...educationExperiences].find(
+        (exp) => exp.id === experimentId
+      );
+      goToElementFromId(`Experience #${experience?.id}`);
+    },
+    [filteredExperiences, educationExperiences]
+  );
+
   const goToPublication = useCallback(
     (expId: number) => {
-      const publications = portfolio?.publications.filter(
+      const publicationsForExpId = portfolio?.publications.filter(
         (pub) => pub.experience_id === expId
       );
-      if (publications) {
-        const lastPublication = publications.sort(
+      if (publicationsForExpId) {
+        const lastPublication = publicationsForExpId.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         )[0];
-        document
-          .getElementById(`Publication #${lastPublication.id}`)
-          ?.scrollIntoView();
+        goToElementFromId(`Publication #${lastPublication.id}`);
       }
     },
     [portfolio]
@@ -112,10 +131,10 @@ const Portfolio = () => {
   }, [portfolio?.publications]);
 
   if (portfolio) {
-    // const genericFacts = portfolio.facts.filter((fact) => !fact.theme_id);
-    // const themeFacts = portfolio.facts.filter(
-    //   (fact) => fact.theme_id === currentThemeObject?.id
-    // );
+    const genericFacts = portfolio.facts.filter((fact) => !fact.theme_id);
+    const themeFacts = portfolio.facts.filter(
+      (fact) => fact.theme_id === currentThemeObject?.id
+    );
     return (
       <>
         <div id="nav" className="hideFromPrint">
@@ -138,7 +157,7 @@ const Portfolio = () => {
                 }
               }}
             />{" "}
-            Print: remove tags from experiences
+            Print: remove experience tags
           </p>
           <Navigation
             items={navigationItems}
@@ -154,12 +173,12 @@ const Portfolio = () => {
             {/* TODO: add portfolio.url */}
             {portfolio.email} · {portfolio.phone}
           </p>
-          {/* <div id="facts">
-          <Facts data={[...genericFacts, ...themeFacts]} />
-        </div> */}
+          <div id="facts">
+            <Facts data={[...genericFacts, ...themeFacts]} />
+          </div>
           <h2>
             {currentThemeObject
-              ? `Skills from the ${currentThemeObject.name} Job Listing`
+              ? `Years of Experience in Skills From the Job Listing`
               : "My Skills"}
           </h2>
           <Histogram
@@ -186,15 +205,22 @@ const Portfolio = () => {
             />
           ))}
           <h2>Education</h2>
-          {portfolio.education.map((edu, i) => (
-            <ExperienceRow
-              data={edu}
-              key={`EducationRow #${i}`}
-              selectedTags={currentThemeObject?.tags}
-              onPublicationClick={goToPublication}
-            />
-          ))}
+          {portfolio.education
+            .filter(
+              (edu) =>
+                !tagFilter ||
+                edu.tags.map((edu) => edu.value).includes(tagFilter)
+            )
+            .map((edu, i) => (
+              <ExperienceRow
+                data={edu}
+                key={`EducationRow #${i}`}
+                selectedTags={currentThemeObject?.tags}
+                onPublicationClick={goToPublication}
+              />
+            ))}
           <h2 style={{ pageBreakBefore: "always" }}>Appendix: Publications</h2>
+          {/* TODO: link publications to companies || projects? */}
           {Object.keys(publicationYears)
             .map((yearString) => parseInt(yearString))
             .sort((a, b) => b - a)
@@ -205,6 +231,11 @@ const Portfolio = () => {
                   {portfolio.publications
                     .filter(
                       (pub) => new Date(pub.date).getFullYear() === pubYear
+                    )
+                    .filter((pub) =>
+                      [...filteredExperiences, ...portfolio.education]
+                        .map((exp) => exp.id)
+                        .includes(pub.experience_id)
                     )
                     .sort(
                       (a, b) =>
@@ -224,8 +255,27 @@ const Portfolio = () => {
                         {!pub.link && pub.title}
                         <ul>
                           <li>{pub.authors}</li>
+                          <li>{pub.venue}</li>
                           <li>
-                            {pub.venue} (
+                            <a
+                              onClick={(event) =>
+                                goToExperience(pub.experience_id)
+                              }
+                              style={{
+                                cursor: "pointer",
+                                color: "#337ab7",
+                              }}
+                            >
+                              ^
+                            </a>{" "}
+                            {
+                              [
+                                ...filteredExperiences,
+                                ...educationExperiences,
+                              ].find((exp) => exp.id === pub.experience_id)
+                                ?.company
+                            }{" "}
+                            (
                             {new Date(pub.date).toLocaleDateString("en-US", {
                               month: "long",
                             })}

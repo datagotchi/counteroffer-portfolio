@@ -36,7 +36,11 @@ const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
   const dateFormat = { month: "long" as const, year: "numeric" as const };
 
   return (
-    <div style={{ display: "block" }} className="experience-row">
+    <div
+      style={{ display: "block" }}
+      className="experience-row"
+      id={`Experience #${data.id}`}
+    >
       <h3>
         {data.title}
         {data.publications.length > 0 && (

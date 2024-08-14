@@ -421,15 +421,16 @@ COPY public.experiences (id, user_id, title, company, startdate, enddate, summar
 3	1	Lead Frontend Engineer	Tanium	2016-08-01	2018-06-01	● Led the frontend engineering team for the core administrative product, working with design.\n● Managed SOAP-based backend request flow to optimize tech stack performance.\n● Provided expert guidance through code reviews, ensuring alignment with project goals.\n● Implemented CI/CD practices and and Agile methodology to enhance development efficiency.	f
 4	1	Lead UX Engineer & Product Manager	Driven Inc.	2015-07-01	2016-08-01	● Led frontend engineering team and supported backend development to boost system performance, utilizing Agile methodology.\n● Enhanced user experience through user research, product analytics, and intuitive feature flows.\n● Directed a strategic pivot targeting cluster operators/administrators, collaborating with sales, marketing, and executives.	f
 14	1	Software Engineering Team Lead (Intern)	IBM	2005-01-01	2005-08-01	● Started out developing software with SQL-embedded C using IBM’s DB2 database system\n● Was promoted to lead a summer team to create a tool to aid bug-fixing these applications\n● Interviewed developer “customers” to determine their software development habits and needs	f
-1	1	Research Scientist & Entrepreneur	Datagotchi Labs	2018-01-01	\N	Incubating an R&D firm to “empower people with information” in underserved market segments.\n\n● Inspect: Enabling sharing important, reliable online news on social media.\n  · Interviewed prospective users to determine their news consumption habits and needs.\n  · Designed & developed a mobile app to empower users to share news summaries online & tested it with real users.\n\n● Counteroffer: Enhancing candidate-job fit by visualizing skills and matches to job listings.\n  · Interviewed prospective users to determine their job application processes and needs.\n  · Designed & developed a skill visualization web app to for job candidates to illustrate their fit for jobs & tested it with real users.	f
+22	1	Founder & Developer	Offend.org	1996-01-01	1998-12-01	● My first web app and company in the form of a shared discussion forum	f
 16	1	Data Science Teaching Assistant	General Assembly	2016-05-01	2016-07-31	● Tutored students on descriptive and inferential statistics—data analysis, and machine learning models (linear and logistic regression, k-nearest neighbors, decision trees/random forests, latent dirichlet allocation/LDA, and time series autocorrelation).\n● Mastered Python technologies (SK Learn, NumPy, Pandas, iPython/Jupyter Notebook).	f
 18	1	Founder & Developer	Simhack	2002-01-01	2004-01-01	● A massive, multiplayer online game about computer security; written first with PHP with a MySQL database, and later with Java servlets (J2EE).	f
 15	1	IT Administrator & Web/Database Developer	Great Lakes Label, LLC	2002-01-01	2004-01-01	● Worked part-time (full-time in summers) while in high school and early college.\n● Created an ERP system that tracked all aspects of the business, including printing inventory, purchase orders, and payments.\n● Implemented with FileMaker Pro database and later hooked up to a custom PHP ecommerce website so customers could place orders in the system.	f
 7	1	Lead UX Engineer	Collusion	2013-12-01	2014-11-01	● Led frontend team and supported middle-tier and back-end development to ensure a high-performing application stack.\n● Deployed a responsive web interface to complement the iOS app, ensuring cross-platform compatibility.	f
-6	1	Co-Founder & UX Consultant	Social Ergonomics Consulting	2014-11-01	2015-07-01	● Assisted user research of and solutions to clients’ problems.\n● Led the development of front-end prototypes with Javascript (D3.js) data visualizations.\n● Developed comprehensive dashboards integrating user research data, feature roadmaps, and evaluation results for product managers and startup founders.	f
 8	1	Full-Stack Software Engineer & Assistant Product Manager	Exaptive	2013-03-01	2013-10-01	● Worked with the founder to define product direction and target market segments.\n● Developed data analytics and visualizations to provide insights from complex datasets.	f
 20	1	Founder & Developer	The Disconnection Network	2003-01-01	2007-01-01	● A network of web apps for shared blogging, a Shoutcast radio station, and customer web pages	f
+6	1	Co-Founder & UX Consultant	Social Ergonomics Consulting	2014-11-01	2015-07-01	● Assisted user research of and solutions to clients’ problems.\n● Led the development of front-end prototypes with Javascript (D3.js) data visualizations.\n● Developed a comprehensive dashboard tool to integrate user research data, feature roadmaps, and evaluation results for product managers and startup founders.	f
 17	1	Founder	Infinity Computing Services	2003-01-01	2005-01-01	● Created company that provided web hosting, email hosting, and IT support services; had several customers and web site paid for itself	f
+1	1	Technology Research Scientist & Spinoff Entrepreneur	Datagotchi Labs	2018-01-01	\N	Incubating an R&D firm to “empower people with information” in underserved market segments.\n\n● Inspect: Enabling sharing important, reliable online news on social media.\n  · Interviewed prospective users to determine their news consumption habits and needs.\n  · Designed & developed a mobile app to empower users to share news summaries online & tested it with real users.\n\n● Counteroffer: Enhancing candidate-job fit by visualizing skills and matches to job listings.\n  · Interviewed prospective users to determine their job application processes and needs.\n  · Designed & developed a skill visualization web app to for job candidates to illustrate their fit for jobs & tested it with real users.	f
 21	1	BS in Computer Science	Michigan Technological University	2003-08-01	2007-05-01	● Relevant Classes: Discrete Structures, Data Structures, Intro to Operating Systems, Object-Oriented Design, Advanced Artificial Intelligence, Real Analysis, Regression Analysis.\n● Research: Temporal data mining for computer architecture simulation results; machine learning for “expert” Go playing data; evolutionary algorithms for relational database optimization.\n● Activities: Workshop on Data Visualization and its Role in the Practice of Statistics, Phi Kappa Phi Honor Society, Upsilon Pi Epsilon Honor Society chapter president.\n● Honors: Upsilon Pi Epsilon Honor Society Jim Nolen Scholarship, Mathematics Department Certificate of Merit, Board of Controls Merit Scholarship.	t
 \.
 
@@ -439,13 +440,7 @@ COPY public.experiences (id, user_id, title, company, startdate, enddate, summar
 --
 
 COPY public.facts (id, user_id, key, value, theme_id) FROM stdin;
-8	1	Job Listing	https://boards.greenhouse.io/materialbank/jobs/6046168003	4
-6	1	Email	bobness@gmail.com	\N
-7	1	Phone	510-882-3319	\N
-5	1	Location	Grand Rapids, MI	\N
-9	1	Job Listing	https://jobs.smartrecruiters.com/SigmaSoftware2/743999999830506-middle-front-end-developer-social-shopping-platform-	6
-10	1	Job Listing	https://jobs.smartrecruiters.com/SigmaSoftware2/743999999830506-middle-front-end-developer-social-shopping-platform-	7
-11	1	Job Listing	https://jobs.smartrecruiters.com/Square/743999999675802-staff-frontend-software-engineer-remote-device-management	8
+12	1	Objective	To apply my Information Science training and broad experiences in technology research, entreprenurship, & software engineering to get a job in product management.	13
 \.
 
 
@@ -478,10 +473,10 @@ COPY public.messages (id, value, question_id, sender, job_id, datetime) FROM std
 --
 
 COPY public.publications (id, user_id, title, venue, link, experience_id, date, authors) FROM stdin;
+31	1	CS4099 Database Research Final Report	Independent Study	https://www.dropbox.com/scl/fi/qkm16fvino5e4lbd9dd6t/db-sqo-paper.pdf?rlkey=cy2qwnqqhnoa9hswxygbvdq5g&st=7wc8iws8&dl=0	21	2005-12-12	Richards, R.S. & Stark, R.F.
 6	1	Development of Dynamic Visual Artifacts for Resilient Human-Automation Collaboration	4th International Conference on Applied Human Factors and Ergonomics (AHFE)	\N	9	2012-07-01	Stark, R.F., Voshell, M., Mahoney, S., & Farry, M.
 19	1	Tracking the Reliability of Information	Datagotchi.net	https://datagotchi.net/2020/11/16/tracking-the-reliability-of-information/	1	2020-11-16	Stark, R.F.
 20	1	My Solution for Tracking the Reliability of Information	Datagotchi.net	https://datagotchi.net/2020/11/22/my-solution-for-tracking-the-reliability-of-information/	1	2020-11-22	Stark, R.F.
-17	1	Why Artificial Intelligence Must Be Regulated	Medium.com	https://medium.com/@bobstark/why-artificial-intelligence-must-be-regulated-c5c8ca1c02d9	1	2020-06-28	Stark, R.F.
 16	1	A Better Approach for Iteratively Creating New Technology	Medium.com	https://medium.com/@bobstark/a-better-approach-for-iteratively-creating-new-technology-cce311404482	1	2020-06-19	Stark, R.F.
 15	1	Enabling Human-Machine Collaboration to Improve the Use of AI	Medium.com	https://medium.com/@bobstark/enabling-human-machine-collaboration-to-improve-the-use-of-ai-5742b5517f28	1	2020-06-15	Stark, R.F.
 14	1	Information Science as a Lens for Better Software	Medium.com	https://medium.com/@bobstark/information-science-as-a-lens-for-better-software-580ac1d50fa1	1	2020-06-13	Stark, R.F.
@@ -490,9 +485,7 @@ COPY public.publications (id, user_id, title, venue, link, experience_id, date, 
 8	1	Framing the Sociocultural Context to Aid Course of Action Generation for Counterinsurgency	Advances in Applied Human Modeling and Simulation	http://books.google.com/books?hl=en&lr=&id=l1BJ6XTBfo8C&oi=fnd&pg=PA436&dq=info:1pPkQ0m9b_sJ:scholar.google.com&ots=95dYYFCG-b&sig=CzF3IC4IPzWjbOD2FwlpSxXQ-68	9	2012-01-01	Farry, M., Stark, B., Mahoney, S., Carlson, E., & Koelle, D.
 7	1	Mixed-Initiative Data Mining with Bayesian Networks	IEEE Conference on Cognitive Methods in Situation Awareness and Decision Support (CogSIMA)	https://www.dropbox.com/s/m6yarozba98kb4l/Stark-et-al-2012%20CogSIMA.pdf?dl=0	9	2012-03-01	Stark, R.F., Farry, M., & Pfautz, J.
 3	1	Supporting tactical intelligence using collaborative environments and social networking	SPIE Defense, Security, and Sensing	https://www.spiedigitallibrary.org/conference-proceedings-of-spie/8758/87580E/Supporting-tactical-intelligence-using-collaborative-environments-and-social-networking/10.1117/12.2015997.short#_=_	9	2013-01-01	Wollocko, A.B., Farry, M.P., & Stark, R.F.
-22	1	How AI Systems are Used Today (and Their Problems)	Medium.com	https://medium.com/@bobstark/how-ai-systems-are-used-today-and-their-problems-c821229b05fd	1	2024-07-10	Stark, R.F.
 23	1	Why Startups Need Problem-Solution Fit	Medium.com	https://medium.com/@bobstark/why-startups-need-problem-solution-fit-57303a53f5d6	1	2024-02-15	Stark, R.F.
-24	1	Why is AI dangerous? Automation!	Medium.com	https://medium.com/@bobstark/why-is-ai-dangerous-automation-ab6a63cc0d09	1	2023-07-04	Stark, R.F.
 4	1	Visualizations and Interaction Methods for Resilient Submarine Decision Support	56th Annual Meetings of the Human Factors and Ergonomics Society (HFES)	https://www.dropbox.com/s/l8b10uglras1z1r/Stark-et-al-2012%20HFES.pdf?dl=0	9	2012-10-01	Stark, R.F., Woods, D.D., Farry, M., Morison, A., Thornton, W., & Wollocko, A.
 27	1	Using Leverage to Make Demands from Employers	Datagotchi.net	https://datagotchi.net/2022/06/07/using-leverage-to-make-demands-from-employers/	1	2022-06-07	Stark, R.F.
 10	1	Aiding the User Input to Video Games: Virtual Role Players with Speech and Gesture Recognition	MS Thesis, Pennsylvania State University	https://etda.libraries.psu.edu/paper/10686/6306	12	2010-05-01	Stark, R.F.
@@ -500,7 +493,6 @@ COPY public.publications (id, user_id, title, venue, link, experience_id, date, 
 5	1	Visualizing Large Scale Patterns and Anomalies in Geospatial Data	VisWeek 2012	https://www.dropbox.com/s/l0o54erpoh051cs/Stark-et-al-2012%20VAST.pdf?dl=0	9	2012-10-01	Stark, R.F., Wollocko, A., Borys, M., Kierstead, M. & Farry, M.
 9	1	Modeling Resilient Submarine Decision Making	21st Annual Conference on Behavior Representation in Modeling Simulation (BRiMS)	https://www.dropbox.com/scl/fi/drmc1lf5ga8gqlsd35x27/Stark-et-al-2012-BRIMS.pdf?rlkey=nqiqimhhg2cmocqfrfepe35tn&st=amj1opk0&dl=0	9	2012-01-01	Stark, R.F., Farry, M.P., Thornton, W.A., & Wollocko, A.B.
 12	1	Interacting Naturally in Virtual Environments	2010 Interservice/Industry Training, Simulation and Education Conference (I/ITSEC)	https://www.dropbox.com/scl/fi/p9cocc7tow54buwlfnq1r/Diller-et-al-2010-IITSEC.pdf?rlkey=t2x6lhc6nzbfzi7w5mp3mncos&st=1q6uuv82&dl=0	10	2010-01-01	Diller, D., Stark, R.F., Krisler, B., Shapiro, R., & Moffitt, K.
-25	1	What is AI? It’s just processing data and returning similar training instances!	Medium.com	https://medium.com/@bobstark/what-is-ai-its-just-processing-data-and-returning-similar-training-instances-32ac370dfeef	1	2023-06-07	Stark, R.F.
 28	1	My Solution to Using Leverage to Make Demands from Employers	Datagotchi.net	https://datagotchi.net/2022/06/17/my-solution-to-using-leverage-to-make-demands-from-employers/	1	2022-06-17	Stark, R.F.
 29	1	Hiring in the Wake of the Pandemic	Datagotchi.net	https://datagotchi.net/2021/08/25/hiring-in-the-wake-of-the-pandemic/	1	2021-08-25	Stark, R.F.
 30	1	My Solution to Hiring in the Wake of the Pandemic	Datagotchi.net	https://datagotchi.net/2021/08/30/my-solution-to-hiring-in-the-wake-of-the-pandemic/	1	2021-08-30	Stark, R.F.
@@ -659,15 +651,15 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 137	7	Node.js
 178	1	Stakeholder Engagement
 189	3	Stakeholder Engagement
-24	6	User/Customer Research
-25	1	User/Customer Research
-49	8	User/Customer Research
-50	9	User/Customer Research
-73	10	User/Customer Research
-93	14	User/Customer Research
-101	4	User/Customer Research
 16	4	Product Roadmapping
 91	1	Product Roadmapping
+24	6	User Research
+25	1	User Research
+49	8	User Research
+50	9	User Research
+73	10	User Research
+93	14	User Research
+101	4	User Research
 127	4	AngularJS
 129	4	Data Visualization
 130	4	Javascript
@@ -753,7 +745,6 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 280	6	Design Collaboration
 281	7	Design Collaboration
 282	8	Design Collaboration
-284	4	QA Collaboration
 285	7	Wireframing
 286	3	Accessibility
 287	9	Technical Documentation
@@ -892,8 +883,6 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 441	9	Product Experiments
 330	3	Product Performance Optimization
 331	4	Product Performance Optimization
-125	2	User/Customer Research
-141	7	User/Customer Research
 410	8	Market Research
 411	9	Market Research
 443	4	Artificial Intelligence
@@ -921,10 +910,38 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 467	12	Generative AI
 469	4	Generative AI
 470	16	Generative AI
+125	2	User Research
+141	7	User Research
 471	1	Product Launch
 472	4	Product Launch
 473	7	Product Launch
 474	8	Product Launch
+475	18	Product Management
+476	20	Product Management
+477	14	SQL
+478	6	Product Management
+480	1	Content Writing
+481	4	Content Writing
+482	7	Content Writing
+483	10	Content Writing
+484	9	Content Writing
+485	17	Content Writing
+486	12	Content Writing
+487	21	Content Writing
+488	1	Startup Environment
+489	1	SaaS
+490	4	SaaS
+491	7	SaaS
+492	8	SaaS
+496	7	Market Research
+497	20	Market Research
+498	18	Market Research
+499	22	Company Operations
+500	22	Product Development
+501	22	SQL
+502	15	Product Development
+503	13	Product Development
+504	14	Product Development
 \.
 
 
@@ -933,10 +950,9 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 --
 
 COPY public.themes (id, user_id, name, tags) FROM stdin;
-12	1	AI Product	{"Product Management","Artificial Intelligence","Machine Learning","Stakeholder Engagement","User/Customer Research","Product Strategy","Market Research","Product Roadmapping","Cross-Functional Collaboration","Executive Engagement","Startup Environment","Team Lead","Computer Science",STEM,"Technical Documentation","Agile Methodology","Solution Design","Product Performance Optimization","Product Development","Go-To-Market Strategizing","Project Management",Prototyping,"Product Experiments","Product Collaboration","Engineering Collaboration","Generative AI","Product Launch"}
-13	1	Product Management	{"Product Management","Project Management","Cross-Functional Collaboration","Stakeholder Engagement","Data Analysis",SQL,Python,Spreadsheets,"Product Development","Data Visualization","Market Research","Solution Design","User/Customer Research","Product Analytics","Product Roadmapping","Product Performance Optimization","Company Operations","Product Strategy","Product Experiments"}
 4	1	Material Bank	{HTML,CSS,React,"CSS Preprocessors","Front-End Engineering","Executive Engagement","Product Collaboration","Design Collaboration","QA Collaboration",Wireframing,"Responsive Design",Accessibility,"UX Design","Technical Documentation","E2E Testing",Node.js,"Web Analytics","Engineering Collaboration","Back-End Engineering","Computer Science",E-Commerce,"Project Management","Performance Optimization","Technology Tradeoffs","Cross-Browser Compatibility","Startup Environment"}
 3	1	Raft	{HTML,CSS,React,Javascript,Typescript,D3.js,"UX Research","UX Design","Responsive Design","Cloud-Native Environment","Gradle Dependency Manager","NPM Package Manager","Yarn Package Manager","Secret Clearance","Map-Based UIs",Java,Python,Go,"Customer-Obsessed Mindset","Public-Sector Modernization",Microservices,"Streaming Tools",STEM,"UX Education"}
+13	1	Product Management	{"Product Management","Project Management","Stakeholder Engagement","Data Analysis",SQL,Spreadsheets,"Product Development","Data Visualization","Market Research","Solution Design","User Research","Product Analytics","Product Roadmapping","Product Strategy","Product Experiments","Content Writing","Product Launch",Software-as-a-Service,"Product Collaboration","Design Collaboration","Engineering Collaboration"}
 \.
 
 
@@ -953,14 +969,14 @@ COPY public.users (id, email, hashed_password, current_session, name, username, 
 -- Name: experiences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.experiences_id_seq', 21, true);
+SELECT pg_catalog.setval('public.experiences_id_seq', 22, true);
 
 
 --
 -- Name: facts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.facts_id_seq', 11, true);
+SELECT pg_catalog.setval('public.facts_id_seq', 13, true);
 
 
 --
@@ -981,7 +997,7 @@ SELECT pg_catalog.setval('public.messages_id_seq', 31, true);
 -- Name: publications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publications_id_seq', 30, true);
+SELECT pg_catalog.setval('public.publications_id_seq', 31, true);
 
 
 --
@@ -995,7 +1011,7 @@ SELECT pg_catalog.setval('public.questions_id_seq', 4, true);
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tags_id_seq', 474, true);
+SELECT pg_catalog.setval('public.tags_id_seq', 504, true);
 
 
 --
