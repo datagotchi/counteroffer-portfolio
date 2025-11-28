@@ -18,13 +18,13 @@ interface YearsObject {
 const Portfolio = () => {
   const currentThemeNameFromStorage = sessionStorage.getItem(CURRENT_THEME_KEY);
 
-  const hash = useLocationHash();
+  const username = useLocationHash();
   const [currentThemeName, setCurrentThemeName] = useState<string | null>(
     currentThemeNameFromStorage
   );
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const portfolio = usePortfolio(hash);
+  const portfolio = usePortfolio(username);
 
   const api = useApi();
 
@@ -35,7 +35,7 @@ const Portfolio = () => {
       items.push(...portfolio.themes.map((theme) => theme.name));
     }
     return items;
-  }, [portfolio?.themes]);
+  }, [portfolio?.themes.length]);
 
   useEffect(() => {
     sessionStorage.setItem(CURRENT_THEME_KEY, currentThemeName ?? "");
@@ -50,7 +50,7 @@ const Portfolio = () => {
   const themedExperiences = useMemo(() => {
     if (currentThemeName && portfolio?.professionalExperiences) {
       return portfolio.professionalExperiences.filter((exp) =>
-        currentThemeObject?.tags.some((tag) =>
+        currentThemeObject?.tags.every((tag) =>
           exp.tags.map((t) => t.value).includes(tag)
         )
       );
@@ -134,24 +134,27 @@ const Portfolio = () => {
 
   const createTheme = useCallback(
     async (tags: string[]) => {
-      if (hash && selectedTags.length > 0) {
+      if (username && selectedTags.length > 0) {
         const themeName = prompt("Name of the new theme");
         if (themeName) {
           // create theme in db
-          await api.postTheme(hash, themeName, selectedTags);
-          // add new theme to the left
-          portfolio?.themes.push({
-            id: 0,
-            user_id: 1,
-            name: themeName,
-            tags: selectedTags,
-          });
+          await api.postTheme(username, themeName, selectedTags);
           // go to new theme
           setCurrentThemeName(themeName);
+          // reload to show the theme selected on the left
+          window.location.reload();
         }
       }
     },
-    [hash, selectedTags]
+    [username, selectedTags]
+  );
+
+  const currentExperiences = useMemo(
+    () =>
+      themedExperiences && themedExperiences.length > 0
+        ? themedExperiences
+        : filteredExperiences,
+    [themedExperiences, filteredExperiences]
   );
 
   if (portfolio) {
@@ -197,20 +200,38 @@ const Portfolio = () => {
             {/* TODO: add portfolio.url */}
             {portfolio.email} · {portfolio.phone}
           </p>
-          <div id="facts">
-            <Facts data={[...genericFacts, ...themeFacts]} />
-          </div>
+          {username && currentThemeObject && (
+            <>
+              <p style={{ textAlign: "center" }}>
+                <strong>Current Theme:</strong> {currentThemeObject.name}
+              </p>
+              <p style={{ textAlign: "center" }}>
+                <button
+                  onClick={async () => {
+                    if (confirm("Are you sure?")) {
+                      await api.deleteTheme(username, currentThemeObject.name);
+                      portfolio.themes = portfolio.themes.filter(
+                        (t) => t.name !== currentThemeName
+                      );
+                      setCurrentThemeName(null);
+                    }
+                  }}
+                  className="btn bg-danger"
+                >
+                  Delete
+                </button>
+              </p>
+            </>
+          )}
+          {/* <div id="facts">
+          <Facts data={[...genericFacts, ...themeFacts]} />
+        </div> */}
           <h2>
-            {currentThemeObject
-              ? `Years of Experience in Skills From the Job Listing`
-              : "My Skills"}
+            {currentThemeObject ? `Skills in this theme/pitch` : "My Skills"}
           </h2>
+
           <Histogram
-            experiences={
-              themedExperiences && themedExperiences.length > 0
-                ? themedExperiences
-                : filteredExperiences
-            }
+            experiences={currentExperiences}
             selectedThemeTags={currentThemeObject?.tags}
             setSelectedTags={setSelectedTags}
             selectedTags={selectedTags}
@@ -221,7 +242,7 @@ const Portfolio = () => {
               ? "Experiences With Those Skills"
               : "My Experiences"}
           </h2>
-          {filteredExperiences.map((exp, i) => (
+          {currentExperiences.map((exp, i) => (
             <ExperienceRow
               data={exp}
               key={`ExperienceRow #${i}`}
@@ -261,7 +282,7 @@ const Portfolio = () => {
                         new Date(b.date).getTime() - new Date(a.date).getTime()
                     )
                     .map((pub, i) => (
-                      <li>
+                      <li key={`Publication #${pub.id}`}>
                         {pub.link && (
                           <a
                             href={pub.link}

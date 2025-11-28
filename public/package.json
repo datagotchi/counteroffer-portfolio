@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "webpack --mode development"
+    "build": "webpack --mode development --watch"
   },
   "eslintConfig": {
     "extends": [

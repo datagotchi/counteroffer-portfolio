@@ -59,15 +59,16 @@ const Histogram = ({
       <div id="histogram_container">
         <div id="histogram_header">
           <strong style={{ float: "left" }}>
-            Click one or more bars to filter the experiences below
+            Click one or more bars to filter the experiences below to filter and
+            possibly:{" "}
+            <button
+              onClick={() => createTheme(selectedTags)}
+              className="btn bg-success"
+              disabled={selectedTags.length === 0}
+            >
+              Create Theme
+            </button>
           </strong>
-          {selectedTags.length > 0 && (
-            <div>
-              <button onClick={() => createTheme(selectedTags)}>
-                Create Theme
-              </button>
-            </div>
-          )}
           <div style={{ float: "right" }}>
             <input
               type="text"

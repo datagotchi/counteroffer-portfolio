@@ -8,20 +8,33 @@ const useApi = () => {
   const postResponses = (username: string, responses: Message[]) =>
     fetch("/surveys/" + username, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(responses),
     });
 
   const postTheme = (username: string, name: string, tags: string[]) =>
     fetch("/themes/" + username, {
       method: "POST",
-      body: JSON.stringify(tags),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        tags,
+      }),
     });
+
+  const deleteTheme = (username: string, themeName: string) =>
+    fetch(`/themes/${username}/${themeName}`, { method: "DELETE" });
 
   return {
     getPortfolio,
     getQuestions,
     postResponses,
     postTheme,
+    deleteTheme,
   };
 };
 
