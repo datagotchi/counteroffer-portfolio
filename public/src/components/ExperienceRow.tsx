@@ -21,18 +21,6 @@ const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
     return "";
   }, [data?.enddate]);
 
-  const filteredTags = useMemo(() => {
-    if ("tags" in data) {
-      if (selectedTags) {
-        return data.tags.filter((tag) => selectedTags?.includes(tag.value));
-      } else {
-        return data.tags;
-      }
-    } else {
-      return [];
-    }
-  }, [data.tags, selectedTags]);
-
   const dateFormat = { month: "long" as const, year: "numeric" as const };
 
   return (
@@ -69,7 +57,7 @@ const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
       <div className="experience-summary">{data.summary}</div>
       <div>
         <ul className="tag-list">
-          {filteredTags
+          {data.tags
             .sort((a: Tag, b: Tag) => {
               if (b.value < a.value) {
                 return 1;
@@ -80,7 +68,12 @@ const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
               return 0;
             })
             .map((tag, i) => (
-              <li className={"tag-item"} key={`tag ${data.id} - ${i}`}>
+              <li
+                className={`tag-item ${
+                  selectedTags?.includes(tag.value) && "danger"
+                }`}
+                key={`tag ${data.id} - ${i}`}
+              >
                 {tag.value}
               </li>
             ))}

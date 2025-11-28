@@ -13,8 +13,9 @@ const usePortfolio = (username?: string) => {
       setLoading(true);
       api
         .getPortfolio(username)
-        .then((response) => {
-          setPortfolio(response.data);
+        .then((response) => response.json())
+        .then((data) => {
+          setPortfolio(data);
         })
         .finally(() => setLoading(false));
     }

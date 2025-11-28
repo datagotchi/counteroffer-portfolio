@@ -1,32 +1,27 @@
-import axios from "axios";
-import { useMemo } from "react";
 import { Message } from "../types";
 
-// const baseURL = "http://localhost:8000";
-
 const useApi = () => {
-  const instance = useMemo(
-    () =>
-      axios.create({
-        // baseURL,
-        headers: { "Content-Type": "application/json" },
-      }),
-    []
-  );
+  const getPortfolio = (username: string) => fetch("/portfolios/" + username);
 
-  const getPortfolio = (username: string) =>
-    instance.get("/portfolios/" + username);
-
-  const getQuestions = (username: string) =>
-    instance.get("/surveys/" + username);
+  const getQuestions = (username: string) => fetch("/surveys/" + username);
 
   const postResponses = (username: string, responses: Message[]) =>
-    instance.post("/surveys/" + username, responses);
+    fetch("/surveys/" + username, {
+      method: "POST",
+      body: JSON.stringify(responses),
+    });
+
+  const postTheme = (username: string, name: string, tags: string[]) =>
+    fetch("/themes/" + username, {
+      method: "POST",
+      body: JSON.stringify(tags),
+    });
 
   return {
     getPortfolio,
     getQuestions,
     postResponses,
+    postTheme,
   };
 };
 

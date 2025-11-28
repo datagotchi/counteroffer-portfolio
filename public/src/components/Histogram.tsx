@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Experience, Tag } from "../types";
 
 interface TagCount {
@@ -8,9 +8,10 @@ interface TagCount {
 
 interface Props {
   experiences: Experience[];
-  onTagSelected: (tag?: string) => void;
-  setTags: (tags: string[]) => void;
   selectedThemeTags?: string[];
+  selectedTags: string[];
+  setSelectedTags: (tags: string[]) => void;
+  createTheme: (tags: string[]) => void;
   printStyle?: string;
 }
 
@@ -18,15 +19,15 @@ export const EXPERIENCE_YEAR_HEIGHT = 2;
 
 const Histogram = ({
   experiences,
-  onTagSelected,
-  setTags,
   selectedThemeTags,
+  selectedTags,
+  setSelectedTags,
+  createTheme,
   printStyle,
 }: Props) => {
   const [filter, setFilter] = useState<string>("");
-  const [selectedTag, setSelectedTag] = useState<string | undefined>();
 
-  const tagCounts = useMemo(() => {
+  const sortedTagCounts = useMemo(() => {
     return experiences
       .reduce<TagCount[]>((counts, experience) => {
         experience.tags
@@ -51,16 +52,7 @@ const Histogram = ({
         return counts;
       }, [])
       .sort((a, b) => b.count - a.count);
-  }, [experiences]);
-
-  useEffect(() => {
-    const tags = tagCounts.map((tc) => tc.name);
-    setTags(tags);
-  }, [tagCounts, setTags]);
-
-  useEffect(() => {
-    onTagSelected(selectedTag);
-  }, [selectedTag, onTagSelected]);
+  }, [experiences, selectedThemeTags]);
 
   return (
     <>
@@ -69,6 +61,13 @@ const Histogram = ({
           <strong style={{ float: "left" }}>
             Click one or more bars to filter the experiences below
           </strong>
+          {selectedTags.length > 0 && (
+            <div>
+              <button onClick={() => createTheme(selectedTags)}>
+                Create Theme
+              </button>
+            </div>
+          )}
           <div style={{ float: "right" }}>
             <input
               type="text"
@@ -85,7 +84,7 @@ const Histogram = ({
           </div>
         </div>
         <div style={{ clear: "both", fontSize: "12px" }}>
-          {tagCounts
+          {sortedTagCounts
             .filter((tc) =>
               tc.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
             )
@@ -109,13 +108,16 @@ const Histogram = ({
                     cursor: "pointer",
                   }}
                   className={
-                    "histogram-tag " + (selectedTag === tc.name ? "danger" : "")
+                    "histogram-tag " +
+                    (selectedTags.includes(tc.name) ? "danger" : "")
                   }
                   onClick={() => {
-                    if (selectedTag === tc.name) {
-                      setSelectedTag(undefined);
+                    if (selectedTags.includes(tc.name)) {
+                      setSelectedTags(
+                        selectedTags.filter((st) => st !== tc.name)
+                      );
                     } else {
-                      setSelectedTag(tc.name);
+                      setSelectedTags([...selectedTags, tc.name]);
                     }
                   }}
                 >

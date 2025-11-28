@@ -15,7 +15,7 @@ app.use(cors()); // FIXME: why would I need CORS? /public is on the same host
 
 dotenv.config();
 
-app.use("/", (req, res, next) => next(), express.static("public/build"));
+app.use("/", (req, res, next) => next(), express.static("public/dist"));
 
 app.use(logger("dev"));
 app.use(bodyParser.json());

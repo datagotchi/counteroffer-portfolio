@@ -7,6 +7,7 @@ import Histogram from "./Histogram";
 import Navigation from "./Navigation";
 import Survey from "./Survey";
 import { Publication } from "../types";
+import useApi from "../hooks/useApi";
 
 const CURRENT_THEME_KEY = "current_theme";
 
@@ -18,13 +19,14 @@ const Portfolio = () => {
   const currentThemeNameFromStorage = sessionStorage.getItem(CURRENT_THEME_KEY);
 
   const hash = useLocationHash();
-  const [tags, setTags] = useState<string[] | undefined>();
-  const [tagFilter, setTagFilter] = useState<string | undefined>();
   const [currentThemeName, setCurrentThemeName] = useState<string | null>(
     currentThemeNameFromStorage
   );
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const portfolio = usePortfolio(hash);
+
+  const api = useApi();
 
   const navigationItems = useMemo(() => {
     // let items = ["All Experiences", "Contact"]; // TODO: when I work on the survey again
@@ -65,9 +67,9 @@ const Portfolio = () => {
       experiences = themedExperiences;
     }
     if (experiences) {
-      if (tagFilter) {
+      if (selectedTags.length > 0) {
         return experiences.filter((e) =>
-          e.tags.map((t) => t.value).includes(tagFilter)
+          selectedTags.every((f) => e.tags.map((t) => t.value).includes(f))
         );
       }
       return experiences;
@@ -77,7 +79,7 @@ const Portfolio = () => {
     themedExperiences,
     portfolio?.professionalExperiences,
     currentThemeObject,
-    tagFilter,
+    selectedTags,
   ]);
 
   const educationExperiences = useMemo(() => {
@@ -129,6 +131,28 @@ const Portfolio = () => {
     }
     return [];
   }, [portfolio?.publications]);
+
+  const createTheme = useCallback(
+    async (tags: string[]) => {
+      if (hash && selectedTags.length > 0) {
+        const themeName = prompt("Name of the new theme");
+        if (themeName) {
+          // create theme in db
+          await api.postTheme(hash, themeName, selectedTags);
+          // add new theme to the left
+          portfolio?.themes.push({
+            id: 0,
+            user_id: 1,
+            name: themeName,
+            tags: selectedTags,
+          });
+          // go to new theme
+          setCurrentThemeName(themeName);
+        }
+      }
+    },
+    [hash, selectedTags]
+  );
 
   if (portfolio) {
     const genericFacts = portfolio.facts.filter((fact) => !fact.theme_id);
@@ -187,9 +211,10 @@ const Portfolio = () => {
                 ? themedExperiences
                 : filteredExperiences
             }
-            onTagSelected={(tag?: string) => setTagFilter(tag)}
-            setTags={setTags}
             selectedThemeTags={currentThemeObject?.tags}
+            setSelectedTags={setSelectedTags}
+            selectedTags={selectedTags}
+            createTheme={createTheme}
           />
           <h2>
             {currentThemeObject
@@ -200,25 +225,19 @@ const Portfolio = () => {
             <ExperienceRow
               data={exp}
               key={`ExperienceRow #${i}`}
-              selectedTags={currentThemeObject?.tags}
+              selectedTags={selectedTags}
               onPublicationClick={goToPublication}
             />
           ))}
           <h2>Education</h2>
-          {portfolio.education
-            .filter(
-              (edu) =>
-                !tagFilter ||
-                edu.tags.map((edu) => edu.value).includes(tagFilter)
-            )
-            .map((edu, i) => (
-              <ExperienceRow
-                data={edu}
-                key={`EducationRow #${i}`}
-                selectedTags={currentThemeObject?.tags}
-                onPublicationClick={goToPublication}
-              />
-            ))}
+          {portfolio.education.map((edu, i) => (
+            <ExperienceRow
+              data={edu}
+              key={`EducationRow #${i}`}
+              selectedTags={selectedTags}
+              onPublicationClick={goToPublication}
+            />
+          ))}
           <h2 style={{ pageBreakBefore: "always" }}>Appendix: Publications</h2>
           {/* TODO: link publications to companies || projects? */}
           {Object.keys(publicationYears)
@@ -248,6 +267,7 @@ const Portfolio = () => {
                             href={pub.link}
                             target="_blank"
                             id={`Publication #${pub.id}`}
+                            rel="noreferrer"
                           >
                             {pub.title}
                           </a>
