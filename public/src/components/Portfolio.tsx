@@ -248,6 +248,7 @@ const Portfolio = () => {
               key={`ExperienceRow #${i}`}
               selectedTags={selectedTags}
               onPublicationClick={goToPublication}
+              username={username!}
             />
           ))}
           <h2>Education</h2>
@@ -257,6 +258,7 @@ const Portfolio = () => {
               key={`EducationRow #${i}`}
               selectedTags={selectedTags}
               onPublicationClick={goToPublication}
+              username={username!}
             />
           ))}
           <h2 style={{ pageBreakBefore: "always" }}>Appendix: Publications</h2>
@@ -265,7 +267,7 @@ const Portfolio = () => {
             .map((yearString) => parseInt(yearString))
             .sort((a, b) => b - a)
             .map((pubYear) => (
-              <>
+              <React.Fragment key={`pubYear-${pubYear}`}>
                 <h3>{pubYear}</h3>
                 <ul>
                   {portfolio.publications
@@ -289,34 +291,16 @@ const Portfolio = () => {
                             target="_blank"
                             id={`Publication #${pub.id}`}
                             rel="noreferrer"
+                            key={`pub ${pub.id} title link`}
                           >
                             {pub.title}
                           </a>
                         )}
                         {!pub.link && pub.title}
                         <ul>
-                          <li>{pub.authors}</li>
-                          <li>{pub.venue}</li>
-                          <li>
-                            <a
-                              onClick={(event) =>
-                                goToExperience(pub.experience_id)
-                              }
-                              style={{
-                                cursor: "pointer",
-                                color: "#337ab7",
-                              }}
-                            >
-                              ^
-                            </a>{" "}
-                            {
-                              [
-                                ...filteredExperiences,
-                                ...educationExperiences,
-                              ].find((exp) => exp.id === pub.experience_id)
-                                ?.company
-                            }{" "}
-                            (
+                          <li key={`pub ${pub.id} authors`}>{pub.authors}</li>
+                          <li key={`pub ${pub.id} venue and date`}>
+                            {pub.venue} (
                             {new Date(pub.date).toLocaleDateString("en-US", {
                               month: "long",
                             })}
@@ -326,7 +310,7 @@ const Portfolio = () => {
                       </li>
                     ))}
                 </ul>
-              </>
+              </React.Fragment>
             ))}
         </div>
       </>

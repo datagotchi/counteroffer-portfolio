@@ -1,7 +1,20 @@
-import { Message } from "../types";
+import { Message, Portfolio } from "../types";
 
 const useApi = () => {
   const getPortfolio = (username: string) => fetch("/portfolios/" + username);
+
+  const patchPortfolio = (
+    username: string,
+    experienceId: number,
+    portfolioChanges: Partial<Portfolio>
+  ) =>
+    fetch(`/portfolios/${username}/${experienceId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(portfolioChanges),
+    }).then((response) => response.json());
 
   const getQuestions = (username: string) => fetch("/surveys/" + username);
 
@@ -31,6 +44,7 @@ const useApi = () => {
 
   return {
     getPortfolio,
+    patchPortfolio,
     getQuestions,
     postResponses,
     postTheme,

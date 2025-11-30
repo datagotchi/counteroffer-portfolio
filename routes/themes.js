@@ -48,8 +48,6 @@ router.delete("/:username/:themeName", async (req, res, next) => {
     });
   if (user) {
     try {
-      console.log("*** req.params: ", req.params);
-      console.log("*** user: ", user);
       await req.client.query({
         text: "delete from themes where user_id = $1::integer and name = $2::text",
         values: [user.id, req.params.themeName],

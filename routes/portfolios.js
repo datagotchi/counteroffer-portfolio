@@ -17,14 +17,19 @@ const getPubsForExperience = (req, experience_id) =>
     })
     .then((response) => response.rows);
 
+router.param("username", async (req, res, next) => {
+  req.user = await req.client
+    .query({
+      text: "select * from users where username = $1::text",
+      values: [req.params.username],
+    })
+    .then((result) => result.rows[0]);
+  next();
+});
+
 router.get("/:username", async (req, res, next) => {
-  const username = req.params.username;
-  const userResult = await req.client.query({
-    text: "select * from users where username = $1::text",
-    values: [username],
-  });
-  if (userResult.rows.length === 1) {
-    const user = userResult.rows[0];
+  if (req.user) {
+    const user = req.user;
     const userId = Number(user.id);
     const factsResult = await req.client.query({
       text: "select * from facts where user_id = $1::integer",
@@ -33,8 +38,8 @@ router.get("/:username", async (req, res, next) => {
     const facts = factsResult.rows;
     const experiencesResult = await req.client.query({
       text: `select * from experiences 
-      where user_id = $1::integer
-      order by enddate desc, startdate desc`,
+        where user_id = $1::integer
+        order by enddate desc, startdate desc`,
       values: [userId],
     });
     let experiences = experiencesResult.rows;
@@ -77,6 +82,45 @@ router.get("/:username", async (req, res, next) => {
     req.client.release();
     return res.sendStatus(404);
   }
+});
+
+router.patch("/:username/:experienceId", async (req, res, next) => {
+  if (req.user) {
+    if (req.params.experienceId) {
+      const changes = req.body;
+      const keys = Object.keys(changes || {});
+      if (keys.length === 0) {
+        req.client.release();
+        return res.sendStatus(400);
+      }
+
+      // basic column name validation to avoid injection via keys
+      const validKeys = keys.filter((k) => /^[a-z][a-z0-9_]*$/i.test(k));
+      if (validKeys.length === 0) {
+        req.client.release();
+        return res.sendStatus(400);
+      }
+
+      const set = validKeys.map((k, i) => `"${k}" = $${i + 1}`).join(", ");
+      const values = validKeys.map((k) => changes[k]);
+      values.push(Number(req.params.experienceId));
+
+      const experience = await req.client
+        .query({
+          text: `update experiences set ${set} where id = $${values.length} returning *`,
+          values,
+        })
+        .then((result) => result.rows[0]);
+      if (experience) {
+        return res.json(experience);
+      }
+    } else {
+      req.client.release();
+      return res.sendStatus(400);
+    }
+  }
+  req.client.release();
+  return res.sendStatus(404);
 });
 
 module.exports = router;

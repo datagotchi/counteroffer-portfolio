@@ -1,13 +1,22 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
+import EasyEdit from "react-easy-edit";
+
 import { Experience, Tag } from "../types";
+import useApi from "../hooks/useApi";
 
 interface Props {
   data: Experience;
   selectedTags?: string[];
   onPublicationClick?: (expId: number) => void;
+  username: string;
 }
 
-const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
+const ExperienceRow = ({
+  data,
+  selectedTags,
+  onPublicationClick,
+  username,
+}: Props) => {
   const startDate = useMemo(() => {
     const date = new Date(data.startdate);
     return date.toLocaleDateString("en-US");
@@ -23,6 +32,16 @@ const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
 
   const dateFormat = { month: "long" as const, year: "numeric" as const };
 
+  const api = useApi();
+
+  const updatePortfolioField = useCallback(
+    (experienceId: number, property: string, newValue: any) =>
+      api.patchPortfolio(username, experienceId, {
+        [property]: newValue,
+      }),
+    [data]
+  );
+
   return (
     <div
       style={{ display: "block" }}
@@ -30,7 +49,18 @@ const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
       id={`Experience #${data.id}`}
     >
       <h3>
-        {data.title}
+        <EasyEdit
+          type="text"
+          value={data.title}
+          onSave={async (newValue: string) => {
+            const changes = await updatePortfolioField(
+              data.id,
+              "title",
+              newValue
+            );
+            data.title = changes.title;
+          }}
+        />
         {data.publications.length > 0 && (
           <span
             style={{ float: "right" }}
@@ -51,10 +81,37 @@ const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
           </span>
         )}
       </h3>
-      <h4>{data.company}</h4>
+      <h4>
+        <EasyEdit
+          type="text"
+          value={data.company}
+          onSave={async (newValue: string) => {
+            const changes = await updatePortfolioField(
+              data.id,
+              "company",
+              newValue
+            );
+            data.company = changes.company;
+          }}
+        />
+      </h4>
       {new Date(startDate).toLocaleDateString("en-US", dateFormat)} -{" "}
       {endDate ? new Date(endDate).toLocaleDateString("en-US", dateFormat) : ""}
-      <div className="experience-summary">{data.summary}</div>
+      <div className="experience-summary">
+        <EasyEdit
+          type="textarea"
+          inputAttributes={{ rows: 10, cols: 100 }}
+          value={data.summary}
+          onSave={async (newValue: string) => {
+            const changes = await updatePortfolioField(
+              data.id,
+              "summary",
+              newValue
+            );
+            data.summary = changes.summary;
+          }}
+        />
+      </div>
       <div>
         <ul className="tag-list">
           {data.tags
@@ -67,12 +124,12 @@ const ExperienceRow = ({ data, selectedTags, onPublicationClick }: Props) => {
               }
               return 0;
             })
-            .map((tag, i) => (
+            .map((tag) => (
               <li
                 className={`tag-item ${
                   selectedTags?.includes(tag.value) && "danger"
                 }`}
-                key={`tag ${data.id} - ${i}`}
+                key={`tag-${data.id}-${tag.value}`}
               >
                 {tag.value}
               </li>

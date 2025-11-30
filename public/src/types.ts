@@ -22,6 +22,7 @@ export interface Publication {
 }
 
 export interface Experience {
+  [key: string]: any;
   id: number;
   title: string;
   company: string;
