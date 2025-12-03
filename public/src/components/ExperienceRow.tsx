@@ -32,7 +32,7 @@ const ExperienceRow = ({
     return "";
   }, [liveData?.enddate]);
 
-  const dateFormat = { month: "long" as const, year: "numeric" as const };
+  const dateFormat = { year: "numeric" as const };
 
   const api = useApi();
 

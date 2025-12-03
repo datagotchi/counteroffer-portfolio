@@ -426,9 +426,9 @@ COPY public.experiences (id, user_id, title, company, startdate, enddate, summar
 17	1	Founder	Infinity Computing Services	2003-01-01	2005-01-01	● Created company that provided web hosting, email hosting, and IT support services; had several customers and web site paid for itself	f
 21	1	BS in Computer Science; Minors in Math & Philosophy	Michigan Technological University, Houghton, MI	2003-08-01	2007-05-01	● Research: Data mining of computer architecture simulation data; Machine learning “expert” Go/Baduk play selection; Database query optimization with evolutionary data mining. \n● Activities: Upsilon Pi Epsilon Honor Society Chapter President, Computer Science Lab Tutor.\n● Honors: Phi Kappa Phi, Upsilon Pi Epsilon Jim Nolen Scholarship, Mathematics Department Certificate of Merit, Board of Controls Merit Scholarship.\n● GPA: 3.895.\n● Classes: Core Computer Science curriculum, Advanced Artificial Intelligence, Regression Analysis, Probability and Statistics for CS, Real Analysis, Logic and Scientific Reasoning.	t
 9	1	Government R&D AI Research Scientist & Engineer	BBN Technologies & Charles River Analytics in Cambridge, MA	2010-10-01	2013-03-01	● Designed and led projects ($~2M funding) focused on creating Human-AI Joint Cognitive Systems to improve decision resilience and reduce information overload in high-stakes military/intelligence environments.\n● Published peer-reviewed research on Risk-Driven Methodology for HCI design and the Incremental Formalization of Graphical Models to maintain system stability during collaborative operations.\n● Developed Mixed-Initiative Data Mining tools utilizing Bayesian Networks to enable probabilistic reasoning and increase user trust in data-driven decision support.	f
-3	1	Startup Software Engineer, UX Expert, & Product Manager	Various Technology Startups in Cambridge, MA and then San Francisco, CA	2016-08-01	2018-06-01	● Played a pivotal role in the commercialization of technology startups, gaining hands-on expertise in Lean startup methodology, investment fundraising, and strategic business partnerships.\n● Led full-stack engineering efforts, specializing in building scalable web applications (JavaScript/TypeScript, React, Node.js, Python) to ensure stable platform performance and deployment readiness.\n● Drove UX research and requirements solicitation to uncover product value, designing intuitive & reliable feature flows based on analytics data, and proposing product roadmaps to executives.\n● Served as a Part-time Data Science Teaching Assistant, deepening expertise in modern data science tools such as Python, Scikit-Learn, NumPy, Pandas, and Jupyter Notebook.	f
 12	1	MS in Information Science; Concentration in Human-AI System Reliability	Pennsylvania State University, University Park, PA	2007-09-01	2010-05-01	● Research: Research focused on Human-AI collaboration using decision tree induction, AI for multimodal user interfaces, and sociological models for holistic software design.\n● Thesis: Hand Gesture Recognition utilizing Hidden Markov Models (core probabilistic modeling) to improve training system UX.\n● Honors: Fully-Funded Research Assistantship, Jordan H. Rednor Graduate Fellowship.\n● GPA: 3.78.\n● Classes: Information Management, HCI, Organizational Informatics, Information Theory, Pattern Recognition (EE). Finished courses in EECS and Management Science at MIT.	t
-1	1	Self-Employed Research Scientist & Engineer	Datagotchi Labs in San Francisco, CA and now Grand Rapids, MI	2018-01-01	\N	● Collaborative Copilot (Context Engineering Research): Designed a novel AI UX workflow tool to enumerate human roles and AI systems, explicitly analyzing interaction risks vs. benefits to ensure transparent, risk-managed adoption.\n● Authored extensive web content on Human-AI collaboration, AI alignment, and responsible innovation, demonstrating thought leadership in the ethical and stable deployment of emerging technologies.\n● Inspect: Developed a data visualization web app for news sensemaking, applying principles of information architecture and data structuring to reduce cognitive overload and enable evidence-based insight sharing.	f
+3	1	Startup Software Engineer, UX Expert, & Product Manager	Various Technology Startups in Cambridge, MA and then San Francisco, CA	2013-06-01	2018-06-01	● Played a pivotal role in the commercialization of technology startups, gaining hands-on expertise in Lean startup methodology, investment fundraising, and strategic business partnerships.\n● Led full-stack engineering efforts, specializing in building scalable web applications (JavaScript/TypeScript, React, Node.js, Python) to ensure stable platform performance and deployment readiness.\n● Drove UX research and requirements solicitation to uncover product value, designing intuitive & reliable feature flows based on analytics data, and proposing product roadmaps to executives.\n● Served as a Part-time Data Science Teaching Assistant, deepening expertise in modern data science tools such as Python, Scikit-Learn, NumPy, Pandas, and Jupyter Notebook.	f
+1	1	Self-Employed Research Scientist & Engineer	Datagotchi Labs in San Francisco, CA and now Grand Rapids, MI	2018-06-01	\N	● Collaborative Copilot (Context Engineering Research): Designed a novel AI UX workflow tool to enumerate human roles and AI systems, explicitly analyzing interaction risks vs. benefits to ensure transparent, risk-managed adoption.\n● Authored extensive web content on Human-AI collaboration, AI alignment, and responsible innovation, demonstrating thought leadership in the ethical and stable deployment of emerging technologies.\n● Inspect: Developed a data visualization web app for news sensemaking, applying principles of information architecture and data structuring to reduce cognitive overload and enable evidence-based insight sharing.	f
 \.
 
 
@@ -939,6 +939,13 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 502	15	Product Development
 503	13	Product Development
 504	14	Product Development
+511	1	AI Scope & Feasibility Modeling
+512	1	Systemic Risk Mitigation
+513	1	Probabilistic Modeling
+514	1	Human-Machine Collaboration
+515	1	Cross-Functional Collaboration
+516	1	AI alignment
+517	3	AI Scope & Feasibility Modeling
 \.
 
 
@@ -947,6 +954,7 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 --
 
 COPY public.themes (id, user_id, name, tags) FROM stdin;
+38	1	AI Architect	{"AI Scope & Feasibility Modeling","AI alignment","Systemic Risk Mitigation","Cross-Functional Collaboration","Probabilistic Modeling"}
 \.
 
 
@@ -1005,14 +1013,14 @@ SELECT pg_catalog.setval('public.questions_id_seq', 4, true);
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tags_id_seq', 504, true);
+SELECT pg_catalog.setval('public.tags_id_seq', 517, true);
 
 
 --
 -- Name: themes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.themes_id_seq', 36, true);
+SELECT pg_catalog.setval('public.themes_id_seq', 38, true);
 
 
 --

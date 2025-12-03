@@ -50,7 +50,7 @@ const Portfolio = () => {
   const themedExperiences = useMemo(() => {
     if (currentThemeName && portfolio?.professionalExperiences) {
       return portfolio.professionalExperiences.filter((exp) =>
-        currentThemeObject?.tags.every((tag) =>
+        currentThemeObject?.tags.some((tag) =>
           exp.tags.map((t) => t.value).includes(tag)
         )
       );
