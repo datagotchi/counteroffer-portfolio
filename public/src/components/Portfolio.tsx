@@ -196,7 +196,6 @@ const Portfolio = () => {
         <div id="content">
           <h1 style={{ textAlign: "center" }}>{portfolio.name}</h1>
           <p style={{ textAlign: "center" }}>
-            {/*portfolio.location · */}
             {/* TODO: add portfolio.url */}
             {portfolio.email} · {portfolio.phone}
           </p>

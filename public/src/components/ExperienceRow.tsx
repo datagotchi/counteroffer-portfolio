@@ -17,81 +17,99 @@ const ExperienceRow = ({
   onPublicationClick,
   username,
 }: Props) => {
+  const [liveData, setLiveData] = useState(data);
+
   const startDate = useMemo(() => {
-    const date = new Date(data.startdate);
+    const date = new Date(liveData.startdate);
     return date.toLocaleDateString("en-US");
-  }, [data?.startdate]);
+  }, [liveData?.startdate]);
 
   const endDate = useMemo(() => {
-    if (data.enddate) {
-      const date = new Date(data.enddate);
+    if (liveData.enddate) {
+      const date = new Date(liveData.enddate);
       return date.toLocaleDateString("en-US");
     }
     return "";
-  }, [data?.enddate]);
+  }, [liveData?.enddate]);
 
   const dateFormat = { month: "long" as const, year: "numeric" as const };
 
   const api = useApi();
 
-  const updatePortfolioField = useCallback(
-    (experienceId: number, property: string, newValue: any) =>
-      api.patchPortfolio(username, experienceId, {
-        [property]: newValue,
-      }),
-    [data]
-  );
+  const updatePortfolioField = (
+    experienceId: number,
+    property: string,
+    newValue: any
+  ) =>
+    api.patchPortfolio(username, experienceId, {
+      [property]: newValue,
+    });
+
+  const addTag = (tagName: string) => {
+    api
+      .patchPortfolio(username, liveData.id!, {
+        tags: [{ value: tagName }],
+      })
+      .then((experience: Experience) => {
+        setLiveData({
+          ...liveData,
+          ...experience,
+          tags: [...liveData.tags, ...experience.tags],
+        });
+      });
+  };
 
   return (
     <div
       style={{ display: "block" }}
       className="experience-row"
-      id={`Experience #${data.id}`}
+      id={`Experience #${liveData.id}`}
     >
       <h3>
         <EasyEdit
           type="text"
-          value={data.title}
+          value={liveData.title}
           onSave={async (newValue: string) => {
             const changes = await updatePortfolioField(
-              data.id,
+              liveData.id!,
               "title",
               newValue
             );
-            data.title = changes.title;
+            liveData.title = changes.title;
           }}
         />
-        {data.publications.length > 0 && (
+        {liveData.publications.length > 0 && (
           <span
             style={{ float: "right" }}
             className="publications-link tag-item"
           >
             {onPublicationClick && (
               <a
-                onClick={(event) => onPublicationClick(data.id)}
+                onClick={(event) => onPublicationClick(liveData.id!)}
                 style={{
                   cursor: "pointer",
                   color: "#fff",
                 }}
               >
-                {data.publications.length} Publications
+                {liveData.publications.length} Publications
               </a>
             )}
-            {!onPublicationClick && `${data.publications.length} Publications`}
+            {!onPublicationClick &&
+              `${liveData.publications.length} Publications`}
           </span>
         )}
       </h3>
       <h4>
         <EasyEdit
           type="text"
-          value={data.company}
+          value={liveData.company}
           onSave={async (newValue: string) => {
             const changes = await updatePortfolioField(
-              data.id,
+              liveData.id!,
               "company",
               newValue
             );
-            data.company = changes.company;
+            liveData.company = changes.company;
           }}
         />
       </h4>
@@ -101,20 +119,20 @@ const ExperienceRow = ({
         <EasyEdit
           type="textarea"
           inputAttributes={{ rows: 10, cols: 100 }}
-          value={data.summary}
+          value={liveData.summary}
           onSave={async (newValue: string) => {
             const changes = await updatePortfolioField(
-              data.id,
+              liveData.id!,
               "summary",
               newValue
             );
-            data.summary = changes.summary;
+            liveData.summary = changes.summary;
           }}
         />
       </div>
       <div>
         <ul className="tag-list">
-          {data.tags
+          {liveData.tags
             .sort((a: Tag, b: Tag) => {
               if (b.value < a.value) {
                 return 1;
@@ -129,11 +147,32 @@ const ExperienceRow = ({
                 className={`tag-item ${
                   selectedTags?.includes(tag.value) && "danger"
                 }`}
-                key={`tag-${data.id}-${tag.value}`}
+                key={`tag-${liveData.id}-${tag.value}`}
               >
                 {tag.value}
               </li>
             ))}
+          <li className={"tag-item"} key={`tag-${liveData.id}-addTag`}>
+            <button
+              onClick={() => {
+                const tagName = prompt("New tag name:");
+                if (tagName) {
+                  if (liveData.tags.map((t) => t.value).includes(tagName)) {
+                    return alert(
+                      `Tag ${tagName} already exists in this experience`
+                    );
+                  }
+                  addTag(tagName);
+                }
+              }}
+              style={{
+                backgroundColor: "transparent",
+                border: 0,
+              }}
+            >
+              ✚
+            </button>
+          </li>
         </ul>
       </div>
     </div>

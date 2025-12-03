@@ -94,26 +94,53 @@ router.patch("/:username/:experienceId", async (req, res, next) => {
         return res.sendStatus(400);
       }
 
-      // basic column name validation to avoid injection via keys
+      // basic column name validation to avoid injection
       const validKeys = keys.filter((k) => /^[a-z][a-z0-9_]*$/i.test(k));
       if (validKeys.length === 0) {
         req.client.release();
         return res.sendStatus(400);
       }
 
-      const set = validKeys.map((k, i) => `"${k}" = $${i + 1}`).join(", ");
-      const values = validKeys.map((k) => changes[k]);
-      values.push(Number(req.params.experienceId));
+      const experience = { tags: [] };
 
-      const experience = await req.client
-        .query({
-          text: `update experiences set ${set} where id = $${values.length} returning *`,
-          values,
-        })
-        .then((result) => result.rows[0]);
-      if (experience) {
-        return res.json(experience);
+      const validKeysWithoutTags = validKeys.filter((k) => k !== "tags");
+      if (validKeysWithoutTags.length > 0) {
+        const set = validKeysWithoutTags
+          .map((k, i) => `"${k}" = $${i + 1}`)
+          .join(", ");
+        const values = validKeysWithoutTags.map((k) => changes[k]);
+        values.push(Number(req.params.experienceId));
+
+        const exp = await req.client
+          .query({
+            text: `update experiences set ${set} where id = $${values.length} returning *`,
+            values,
+          })
+          .then((result) => result.rows[0]);
+
+        experience = {
+          ...experience,
+          ...exp,
+        };
       }
+      if (validKeys.includes("tags")) {
+        const { tags: newTags } = changes;
+
+        const newTags2 = await Promise.all(
+          newTags.map((nt) =>
+            req.client
+              .query({
+                text: "insert into tags (experience_id, value) values ($1::integer, $2::text) returning *",
+                values: [req.params.experienceId, nt.value],
+              })
+              .then((result) => result.rows[0])
+          )
+        );
+
+        experience.tags = [...experience.tags, ...newTags2];
+      }
+
+      return res.json(experience);
     } else {
       req.client.release();
       return res.sendStatus(400);
