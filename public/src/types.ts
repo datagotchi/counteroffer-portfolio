@@ -1,19 +1,19 @@
 export interface Fact {
-  id: number;
+  id?: number;
   theme_id?: number;
   key: string;
   value: string;
 }
 
 export interface Tag {
-  id: number;
+  id?: number;
   value: string;
 }
 
 export interface Publication {
-  id: number;
-  user_id: number;
-  experience_id: number;
+  id?: number;
+  user_id?: number;
+  experience_id?: number;
   authors: string;
   title: string;
   venue: string;
@@ -22,7 +22,8 @@ export interface Publication {
 }
 
 export interface Experience {
-  id: number;
+  [key: string]: any;
+  id?: number;
   title: string;
   company: string;
   startdate: string;
@@ -33,8 +34,8 @@ export interface Experience {
 }
 
 export interface Theme {
-  id: number;
-  user_id: number;
+  id?: number;
+  user_id?: number;
   name: string;
   tags: string[];
 }
@@ -49,31 +50,32 @@ export interface Portfolio {
   email: string;
   location: string;
   phone: string;
+  tags?: Tag[];
 }
 
 export interface Question {
-  id: number;
-  user_id: number;
+  id?: number;
+  user_id?: number;
   question: string;
   type: "text" | "textarea" | "skills";
   required: boolean;
 }
 
 export interface Message {
-  id: number;
-  question_id: number;
+  id?: number;
+  question_id?: number;
   sender: any;
   value: string;
 }
 
 export interface OpportunityTag {
-  id: number;
+  id?: number;
   selected: boolean;
   name: string;
 }
 
 export interface Opportunity {
-  id: number;
+  id?: number;
   messages: Message[];
   tags: OpportunityTag[];
 }

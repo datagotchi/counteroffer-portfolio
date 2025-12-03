@@ -4,6 +4,7 @@ import "@testing-library/jest-dom";
 
 import Histogram, { EXPERIENCE_YEAR_HEIGHT } from "../components/Histogram";
 
+// eslint-disable-next-line jest/no-mocks-import
 import {
   mockExperiences,
   MOCK_EXPERIENCE_LENGTH_YEARS,
@@ -17,7 +18,7 @@ describe("Histogram", () => {
       <Histogram
         experiences={mockExperiences}
         // selectedThemeTags={[]}
-        onTagSelected={(tag?: string) => {}}
+        onTagsSelected={(tags?: string[]) => {}}
         setTags={jest.fn()}
       />
     );

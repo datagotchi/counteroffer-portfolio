@@ -11,10 +11,6 @@ const Navigation = ({ items, currentThemeInput, onThemeChange }: Props) => {
     currentThemeInput ?? items[0]
   );
 
-  // TODO: use a left navigation list rather than horizonal buttons
-
-  // TODO: integrate it into the opportunity dashboard
-
   return (
     <>
       <div>

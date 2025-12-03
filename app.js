@@ -15,11 +15,12 @@ app.use(cors()); // FIXME: why would I need CORS? /public is on the same host
 
 dotenv.config();
 
-app.use("/", (req, res, next) => next(), express.static("public/build"));
+app.use("/", (req, res, next) => next(), express.static("public/dist"));
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(express.json());
 
 const ses = new aws.SES({
   apiVersion: "2010-12-01",
@@ -82,9 +83,12 @@ app.use((req, res, next) => {
 const indexRouter = require("./routes/index");
 const portfoliosRouter = require("./routes/portfolios");
 const surveysRouter = require("./routes/surveys");
+const themesRouter = require("./routes/themes");
+
 app.use("/", indexRouter);
 app.use("/portfolios", portfoliosRouter);
 app.use("/surveys", surveysRouter);
+app.use("/themes", themesRouter);
 
 const server = http.createServer(app);
 server.listen(process.env.PORT || 8000);

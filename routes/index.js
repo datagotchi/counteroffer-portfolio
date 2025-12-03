@@ -61,7 +61,7 @@ router.post("/jobs", (req, res, next) => {
   return req.client
     .query({
       text: "insert into jobs (email, user_id) values($1::text, $2::bigint) returning *",
-      values: [email, 1], // TODO: pass in other users' IDs
+      values: [email, 1], // TODO: pass in other users' IDs once I implement users for launch
     })
     .then((result) => {
       const newJob = result.rows[0];

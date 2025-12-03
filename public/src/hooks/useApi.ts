@@ -1,32 +1,54 @@
-import axios from "axios";
-import { useMemo } from "react";
-import { Message } from "../types";
-
-// const baseURL = "http://localhost:8000";
+import { Message, Portfolio } from "../types";
 
 const useApi = () => {
-  const instance = useMemo(
-    () =>
-      axios.create({
-        // baseURL,
-        headers: { "Content-Type": "application/json" },
-      }),
-    []
-  );
+  const getPortfolio = (username: string) => fetch("/portfolios/" + username);
 
-  const getPortfolio = (username: string) =>
-    instance.get("/portfolios/" + username);
+  const patchPortfolio = (
+    username: string,
+    experienceId: number,
+    portfolioChanges: Partial<Portfolio>
+  ) =>
+    fetch(`/portfolios/${username}/${experienceId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(portfolioChanges),
+    }).then((response) => response.json());
 
-  const getQuestions = (username: string) =>
-    instance.get("/surveys/" + username);
+  const getQuestions = (username: string) => fetch("/surveys/" + username);
 
   const postResponses = (username: string, responses: Message[]) =>
-    instance.post("/surveys/" + username, responses);
+    fetch("/surveys/" + username, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(responses),
+    });
+
+  const postTheme = (username: string, name: string, tags: string[]) =>
+    fetch("/themes/" + username, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        tags,
+      }),
+    });
+
+  const deleteTheme = (username: string, themeName: string) =>
+    fetch(`/themes/${username}/${themeName}`, { method: "DELETE" });
 
   return {
     getPortfolio,
+    patchPortfolio,
     getQuestions,
     postResponses,
+    postTheme,
+    deleteTheme,
   };
 };
 

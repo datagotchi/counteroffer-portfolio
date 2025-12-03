@@ -7,6 +7,7 @@ import Histogram from "./Histogram";
 import Navigation from "./Navigation";
 import Survey from "./Survey";
 import { Publication } from "../types";
+import useApi from "../hooks/useApi";
 
 const CURRENT_THEME_KEY = "current_theme";
 
@@ -17,14 +18,15 @@ interface YearsObject {
 const Portfolio = () => {
   const currentThemeNameFromStorage = sessionStorage.getItem(CURRENT_THEME_KEY);
 
-  const hash = useLocationHash();
-  const [tags, setTags] = useState<string[] | undefined>();
-  const [tagFilter, setTagFilter] = useState<string | undefined>();
+  const username = useLocationHash();
   const [currentThemeName, setCurrentThemeName] = useState<string | null>(
     currentThemeNameFromStorage
   );
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const portfolio = usePortfolio(hash);
+  const portfolio = usePortfolio(username);
+
+  const api = useApi();
 
   const navigationItems = useMemo(() => {
     // let items = ["All Experiences", "Contact"]; // TODO: when I work on the survey again
@@ -33,7 +35,7 @@ const Portfolio = () => {
       items.push(...portfolio.themes.map((theme) => theme.name));
     }
     return items;
-  }, [portfolio?.themes]);
+  }, [portfolio?.themes.length]);
 
   useEffect(() => {
     sessionStorage.setItem(CURRENT_THEME_KEY, currentThemeName ?? "");
@@ -65,9 +67,9 @@ const Portfolio = () => {
       experiences = themedExperiences;
     }
     if (experiences) {
-      if (tagFilter) {
+      if (selectedTags.length > 0) {
         return experiences.filter((e) =>
-          e.tags.map((t) => t.value).includes(tagFilter)
+          selectedTags.every((f) => e.tags.map((t) => t.value).includes(f))
         );
       }
       return experiences;
@@ -77,7 +79,7 @@ const Portfolio = () => {
     themedExperiences,
     portfolio?.professionalExperiences,
     currentThemeObject,
-    tagFilter,
+    selectedTags,
   ]);
 
   const educationExperiences = useMemo(() => {
@@ -130,6 +132,31 @@ const Portfolio = () => {
     return [];
   }, [portfolio?.publications]);
 
+  const createTheme = useCallback(
+    async (tags: string[]) => {
+      if (username && selectedTags.length > 0) {
+        const themeName = prompt("Name of the new theme");
+        if (themeName) {
+          // create theme in db
+          await api.postTheme(username, themeName, selectedTags);
+          // go to new theme
+          setCurrentThemeName(themeName);
+          // reload to show the theme selected on the left
+          window.location.reload();
+        }
+      }
+    },
+    [username, selectedTags]
+  );
+
+  const currentExperiences = useMemo(
+    () =>
+      themedExperiences && themedExperiences.length > 0
+        ? themedExperiences
+        : filteredExperiences,
+    [themedExperiences, filteredExperiences]
+  );
+
   if (portfolio) {
     const genericFacts = portfolio.facts.filter((fact) => !fact.theme_id);
     const themeFacts = portfolio.facts.filter(
@@ -169,63 +196,77 @@ const Portfolio = () => {
         <div id="content">
           <h1 style={{ textAlign: "center" }}>{portfolio.name}</h1>
           <p style={{ textAlign: "center" }}>
-            {/*portfolio.location · */}
             {/* TODO: add portfolio.url */}
             {portfolio.email} · {portfolio.phone}
           </p>
-          <div id="facts">
-            <Facts data={[...genericFacts, ...themeFacts]} />
-          </div>
+          {username && currentThemeObject && (
+            <>
+              <p style={{ textAlign: "center" }}>
+                <strong>Current Theme:</strong> {currentThemeObject.name}
+              </p>
+              <p style={{ textAlign: "center" }}>
+                <button
+                  onClick={async () => {
+                    if (confirm("Are you sure?")) {
+                      await api.deleteTheme(username, currentThemeObject.name);
+                      portfolio.themes = portfolio.themes.filter(
+                        (t) => t.name !== currentThemeName
+                      );
+                      setCurrentThemeName(null);
+                    }
+                  }}
+                  className="btn bg-danger"
+                >
+                  Delete
+                </button>
+              </p>
+            </>
+          )}
+          {/* <div id="facts">
+          <Facts data={[...genericFacts, ...themeFacts]} />
+        </div> */}
           <h2>
-            {currentThemeObject
-              ? `Years of Experience in Skills From the Job Listing`
-              : "My Skills"}
+            {currentThemeObject ? `Skills in this theme/pitch` : "My Skills"}
           </h2>
+
           <Histogram
-            experiences={
-              themedExperiences && themedExperiences.length > 0
-                ? themedExperiences
-                : filteredExperiences
-            }
-            onTagSelected={(tag?: string) => setTagFilter(tag)}
-            setTags={setTags}
+            experiences={currentExperiences}
             selectedThemeTags={currentThemeObject?.tags}
+            setSelectedTags={setSelectedTags}
+            selectedTags={selectedTags}
+            createTheme={createTheme}
           />
           <h2>
             {currentThemeObject
               ? "Experiences With Those Skills"
               : "My Experiences"}
           </h2>
-          {filteredExperiences.map((exp, i) => (
+          {currentExperiences.map((exp, i) => (
             <ExperienceRow
               data={exp}
               key={`ExperienceRow #${i}`}
-              selectedTags={currentThemeObject?.tags}
+              selectedTags={selectedTags}
               onPublicationClick={goToPublication}
+              username={username!}
             />
           ))}
           <h2>Education</h2>
-          {portfolio.education
-            .filter(
-              (edu) =>
-                !tagFilter ||
-                edu.tags.map((edu) => edu.value).includes(tagFilter)
-            )
-            .map((edu, i) => (
-              <ExperienceRow
-                data={edu}
-                key={`EducationRow #${i}`}
-                selectedTags={currentThemeObject?.tags}
-                onPublicationClick={goToPublication}
-              />
-            ))}
+          {portfolio.education.map((edu, i) => (
+            <ExperienceRow
+              data={edu}
+              key={`EducationRow #${i}`}
+              selectedTags={selectedTags}
+              onPublicationClick={goToPublication}
+              username={username!}
+            />
+          ))}
           <h2 style={{ pageBreakBefore: "always" }}>Appendix: Publications</h2>
           {/* TODO: link publications to companies || projects? */}
           {Object.keys(publicationYears)
             .map((yearString) => parseInt(yearString))
             .sort((a, b) => b - a)
             .map((pubYear) => (
-              <>
+              <React.Fragment key={`pubYear-${pubYear}`}>
                 <h3>{pubYear}</h3>
                 <ul>
                   {portfolio.publications
@@ -242,40 +283,23 @@ const Portfolio = () => {
                         new Date(b.date).getTime() - new Date(a.date).getTime()
                     )
                     .map((pub, i) => (
-                      <li>
+                      <li key={`Publication #${pub.id}`}>
                         {pub.link && (
                           <a
                             href={pub.link}
                             target="_blank"
                             id={`Publication #${pub.id}`}
+                            rel="noreferrer"
+                            key={`pub ${pub.id} title link`}
                           >
                             {pub.title}
                           </a>
                         )}
                         {!pub.link && pub.title}
                         <ul>
-                          <li>{pub.authors}</li>
-                          <li>{pub.venue}</li>
-                          <li>
-                            <a
-                              onClick={(event) =>
-                                goToExperience(pub.experience_id)
-                              }
-                              style={{
-                                cursor: "pointer",
-                                color: "#337ab7",
-                              }}
-                            >
-                              ^
-                            </a>{" "}
-                            {
-                              [
-                                ...filteredExperiences,
-                                ...educationExperiences,
-                              ].find((exp) => exp.id === pub.experience_id)
-                                ?.company
-                            }{" "}
-                            (
+                          <li key={`pub ${pub.id} authors`}>{pub.authors}</li>
+                          <li key={`pub ${pub.id} venue and date`}>
+                            {pub.venue} (
                             {new Date(pub.date).toLocaleDateString("en-US", {
                               month: "long",
                             })}
@@ -285,7 +309,7 @@ const Portfolio = () => {
                       </li>
                     ))}
                 </ul>
-              </>
+              </React.Fragment>
             ))}
         </div>
       </>

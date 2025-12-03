@@ -2,12 +2,13 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.4
--- Dumped by pg_dump version 14.12 (Homebrew)
+-- Dumped from database version 17.0 (Homebrew)
+-- Dumped by pg_dump version 17.0 (Homebrew)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -51,7 +52,7 @@ CREATE SEQUENCE public.experiences_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.experiences_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.experiences_id_seq OWNER TO postgres;
 
 --
 -- Name: experiences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -88,7 +89,7 @@ CREATE SEQUENCE public.facts_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.facts_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.facts_id_seq OWNER TO postgres;
 
 --
 -- Name: facts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -125,7 +126,7 @@ CREATE SEQUENCE public.jobs_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.jobs_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.jobs_id_seq OWNER TO postgres;
 
 --
 -- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -163,7 +164,7 @@ CREATE SEQUENCE public.messages_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.messages_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.messages_id_seq OWNER TO postgres;
 
 --
 -- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -203,7 +204,7 @@ CREATE SEQUENCE public.publications_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.publications_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.publications_id_seq OWNER TO postgres;
 
 --
 -- Name: publications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -240,7 +241,7 @@ CREATE SEQUENCE public.questions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.questions_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.questions_id_seq OWNER TO postgres;
 
 --
 -- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -275,7 +276,7 @@ CREATE SEQUENCE public.tags_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tags_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.tags_id_seq OWNER TO postgres;
 
 --
 -- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -311,7 +312,7 @@ CREATE SEQUENCE public.themes_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.themes_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.themes_id_seq OWNER TO postgres;
 
 --
 -- Name: themes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -332,7 +333,7 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
@@ -414,24 +415,20 @@ ALTER TABLE ONLY public.themes ALTER COLUMN id SET DEFAULT nextval('public.theme
 
 COPY public.experiences (id, user_id, title, company, startdate, enddate, summary, is_education) FROM stdin;
 11	1	Data Scientist (Graduate Intern)	ScanScout	2008-05-01	2008-08-01	● Analyzed behavioral data mining system to optimize video ad placement (in R)\n● Developed optimizer evaluation system using statistical significance measures (in R embedded in LaTeX)	f
-12	1	MS in Information Science	Pennsylvania State University	2007-09-01	2010-05-01	● Relevant Classes: Pattern Recognition, Human-Computer Interaction, Information Management, Organizational Informatics.\n● Research: Decision tree induction machine learning using R.\n● Thesis: Hand gesture recognition using machine learning for immersive training systems in Java.\n● Honors: Jordan H. Rednor Graduate Fellowship.	t
 13	1	Software Engineering Team Lead (Intern)	IBM	2007-05-01	2007-08-01	● Led team that developed a web renderer for IBM’s XML dialect for user interfaces (Abstract User Interface Markup Language, AUIML)	f
-9	1	Government R&D Scientist & Project Lead	Charles River Analytics	2010-10-01	2013-03-01	● Technical lead for over 5 government R&D projects involving data visualizations and machine learning.\n● Published peer-reviewed research papers project outcomes.\n● Managed the development and maintenance of a Bayesian network machine learning toolkit.	f
-10	1	Government R&D Engineer	BBN Technologies	2008-08-01	2010-10-01	● Developed & user-tested gesture recognition system using hidden Markov Models (Java, Matlab)\n● Designed & developed a distributed natural language processing pipeline (Python)\n● Developed a web app for team collaboration (ASP/C# .NET, HTML, CSS, JS)	f
-3	1	Lead Frontend Engineer	Tanium	2016-08-01	2018-06-01	● Led the frontend engineering team for the core administrative product, working with design.\n● Managed SOAP-based backend request flow to optimize tech stack performance.\n● Provided expert guidance through code reviews, ensuring alignment with project goals.\n● Implemented CI/CD practices and and Agile methodology to enhance development efficiency.	f
-4	1	Lead UX Engineer & Product Manager	Driven Inc.	2015-07-01	2016-08-01	● Led frontend engineering team and supported backend development to boost system performance, utilizing Agile methodology.\n● Enhanced user experience through user research, product analytics, and intuitive feature flows.\n● Directed a strategic pivot targeting cluster operators/administrators, collaborating with sales, marketing, and executives.	f
 14	1	Software Engineering Team Lead (Intern)	IBM	2005-01-01	2005-08-01	● Started out developing software with SQL-embedded C using IBM’s DB2 database system\n● Was promoted to lead a summer team to create a tool to aid bug-fixing these applications\n● Interviewed developer “customers” to determine their software development habits and needs	f
 22	1	Founder & Developer	Offend.org	1996-01-01	1998-12-01	● My first web app and company in the form of a shared discussion forum	f
 16	1	Data Science Teaching Assistant	General Assembly	2016-05-01	2016-07-31	● Tutored students on descriptive and inferential statistics—data analysis, and machine learning models (linear and logistic regression, k-nearest neighbors, decision trees/random forests, latent dirichlet allocation/LDA, and time series autocorrelation).\n● Mastered Python technologies (SK Learn, NumPy, Pandas, iPython/Jupyter Notebook).	f
 18	1	Founder & Developer	Simhack	2002-01-01	2004-01-01	● A massive, multiplayer online game about computer security; written first with PHP with a MySQL database, and later with Java servlets (J2EE).	f
 15	1	IT Administrator & Web/Database Developer	Great Lakes Label, LLC	2002-01-01	2004-01-01	● Worked part-time (full-time in summers) while in high school and early college.\n● Created an ERP system that tracked all aspects of the business, including printing inventory, purchase orders, and payments.\n● Implemented with FileMaker Pro database and later hooked up to a custom PHP ecommerce website so customers could place orders in the system.	f
-7	1	Lead UX Engineer	Collusion	2013-12-01	2014-11-01	● Led frontend team and supported middle-tier and back-end development to ensure a high-performing application stack.\n● Deployed a responsive web interface to complement the iOS app, ensuring cross-platform compatibility.	f
-8	1	Full-Stack Software Engineer & Assistant Product Manager	Exaptive	2013-03-01	2013-10-01	● Worked with the founder to define product direction and target market segments.\n● Developed data analytics and visualizations to provide insights from complex datasets.	f
 20	1	Founder & Developer	The Disconnection Network	2003-01-01	2007-01-01	● A network of web apps for shared blogging, a Shoutcast radio station, and customer web pages	f
 6	1	Co-Founder & UX Consultant	Social Ergonomics Consulting	2014-11-01	2015-07-01	● Assisted user research of and solutions to clients’ problems.\n● Led the development of front-end prototypes with Javascript (D3.js) data visualizations.\n● Developed a comprehensive dashboard tool to integrate user research data, feature roadmaps, and evaluation results for product managers and startup founders.	f
 17	1	Founder	Infinity Computing Services	2003-01-01	2005-01-01	● Created company that provided web hosting, email hosting, and IT support services; had several customers and web site paid for itself	f
-1	1	Technology Research Scientist & Spinoff Entrepreneur	Datagotchi Labs	2018-01-01	\N	Incubating an R&D firm to “empower people with information” in underserved market segments.\n\n● Inspect: Enabling sharing important, reliable online news on social media.\n  · Interviewed prospective users to determine their news consumption habits and needs.\n  · Designed & developed a mobile app to empower users to share news summaries online & tested it with real users.\n\n● Counteroffer: Enhancing candidate-job fit by visualizing skills and matches to job listings.\n  · Interviewed prospective users to determine their job application processes and needs.\n  · Designed & developed a skill visualization web app to for job candidates to illustrate their fit for jobs & tested it with real users.	f
-21	1	BS in Computer Science	Michigan Technological University	2003-08-01	2007-05-01	● Relevant Classes: Discrete Structures, Data Structures, Intro to Operating Systems, Object-Oriented Design, Advanced Artificial Intelligence, Real Analysis, Regression Analysis.\n● Research: Temporal data mining for computer architecture simulation results; machine learning for “expert” Go playing data; evolutionary algorithms for relational database optimization.\n● Activities: Workshop on Data Visualization and its Role in the Practice of Statistics, Phi Kappa Phi Honor Society, Upsilon Pi Epsilon Honor Society chapter president.\n● Honors: Upsilon Pi Epsilon Honor Society Jim Nolen Scholarship, Mathematics Department Certificate of Merit, Board of Controls Merit Scholarship.	t
+21	1	BS in Computer Science; Minors in Math & Philosophy	Michigan Technological University, Houghton, MI	2003-08-01	2007-05-01	● Research: Data mining of computer architecture simulation data; Machine learning “expert” Go/Baduk play selection; Database query optimization with evolutionary data mining. \n● Activities: Upsilon Pi Epsilon Honor Society Chapter President, Computer Science Lab Tutor.\n● Honors: Phi Kappa Phi, Upsilon Pi Epsilon Jim Nolen Scholarship, Mathematics Department Certificate of Merit, Board of Controls Merit Scholarship.\n● GPA: 3.895.\n● Classes: Core Computer Science curriculum, Advanced Artificial Intelligence, Regression Analysis, Probability and Statistics for CS, Real Analysis, Logic and Scientific Reasoning.	t
+9	1	Government R&D AI Research Scientist & Engineer	BBN Technologies & Charles River Analytics in Cambridge, MA	2010-10-01	2013-03-01	● Designed and led projects ($~2M funding) focused on creating Human-AI Joint Cognitive Systems to improve decision resilience and reduce information overload in high-stakes military/intelligence environments.\n● Published peer-reviewed research on Risk-Driven Methodology for HCI design and the Incremental Formalization of Graphical Models to maintain system stability during collaborative operations.\n● Developed Mixed-Initiative Data Mining tools utilizing Bayesian Networks to enable probabilistic reasoning and increase user trust in data-driven decision support.	f
+12	1	MS in Information Science; Concentration in Human-AI System Reliability	Pennsylvania State University, University Park, PA	2007-09-01	2010-05-01	● Research: Research focused on Human-AI collaboration using decision tree induction, AI for multimodal user interfaces, and sociological models for holistic software design.\n● Thesis: Hand Gesture Recognition utilizing Hidden Markov Models (core probabilistic modeling) to improve training system UX.\n● Honors: Fully-Funded Research Assistantship, Jordan H. Rednor Graduate Fellowship.\n● GPA: 3.78.\n● Classes: Information Management, HCI, Organizational Informatics, Information Theory, Pattern Recognition (EE). Finished courses in EECS and Management Science at MIT.	t
+3	1	Startup Software Engineer, UX Expert, & Product Manager	Various Technology Startups in Cambridge, MA and then San Francisco, CA	2013-06-01	2018-06-01	● Played a pivotal role in the commercialization of technology startups, gaining hands-on expertise in Lean startup methodology, investment fundraising, and strategic business partnerships.\n● Led full-stack engineering efforts, specializing in building scalable web applications (JavaScript/TypeScript, React, Node.js, Python) to ensure stable platform performance and deployment readiness.\n● Drove UX research and requirements solicitation to uncover product value, designing intuitive & reliable feature flows based on analytics data, and proposing product roadmaps to executives.\n● Served as a Part-time Data Science Teaching Assistant, deepening expertise in modern data science tools such as Python, Scikit-Learn, NumPy, Pandas, and Jupyter Notebook.	f
+1	1	Self-Employed Research Scientist & Engineer	Datagotchi Labs in San Francisco, CA and now Grand Rapids, MI	2018-06-01	\N	● Collaborative Copilot (Context Engineering Research): Designed a novel AI UX workflow tool to enumerate human roles and AI systems, explicitly analyzing interaction risks vs. benefits to ensure transparent, risk-managed adoption.\n● Authored extensive web content on Human-AI collaboration, AI alignment, and responsible innovation, demonstrating thought leadership in the ethical and stable deployment of emerging technologies.\n● Inspect: Developed a data visualization web app for news sensemaking, applying principles of information architecture and data structuring to reduce cognitive overload and enable evidence-based insight sharing.	f
 \.
 
 
@@ -942,6 +939,13 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 502	15	Product Development
 503	13	Product Development
 504	14	Product Development
+511	1	AI Scope & Feasibility Modeling
+512	1	Systemic Risk Mitigation
+513	1	Probabilistic Modeling
+514	1	Human-Machine Collaboration
+515	1	Cross-Functional Collaboration
+516	1	AI alignment
+517	3	AI Scope & Feasibility Modeling
 \.
 
 
@@ -950,9 +954,7 @@ COPY public.tags (id, experience_id, value) FROM stdin;
 --
 
 COPY public.themes (id, user_id, name, tags) FROM stdin;
-4	1	Material Bank	{HTML,CSS,React,"CSS Preprocessors","Front-End Engineering","Executive Engagement","Product Collaboration","Design Collaboration","QA Collaboration",Wireframing,"Responsive Design",Accessibility,"UX Design","Technical Documentation","E2E Testing",Node.js,"Web Analytics","Engineering Collaboration","Back-End Engineering","Computer Science",E-Commerce,"Project Management","Performance Optimization","Technology Tradeoffs","Cross-Browser Compatibility","Startup Environment"}
-3	1	Raft	{HTML,CSS,React,Javascript,Typescript,D3.js,"UX Research","UX Design","Responsive Design","Cloud-Native Environment","Gradle Dependency Manager","NPM Package Manager","Yarn Package Manager","Secret Clearance","Map-Based UIs",Java,Python,Go,"Customer-Obsessed Mindset","Public-Sector Modernization",Microservices,"Streaming Tools",STEM,"UX Education"}
-13	1	Product Management	{"Product Management","Project Management","Stakeholder Engagement","Data Analysis",SQL,Spreadsheets,"Product Development","Data Visualization","Market Research","Solution Design","User Research","Product Analytics","Product Roadmapping","Product Strategy","Product Experiments","Content Writing","Product Launch",Software-as-a-Service,"Product Collaboration","Design Collaboration","Engineering Collaboration"}
+38	1	AI Architect	{"AI Scope & Feasibility Modeling","AI alignment","Systemic Risk Mitigation","Cross-Functional Collaboration","Probabilistic Modeling"}
 \.
 
 
@@ -1011,14 +1013,14 @@ SELECT pg_catalog.setval('public.questions_id_seq', 4, true);
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tags_id_seq', 504, true);
+SELECT pg_catalog.setval('public.tags_id_seq', 517, true);
 
 
 --
 -- Name: themes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.themes_id_seq', 13, true);
+SELECT pg_catalog.setval('public.themes_id_seq', 38, true);
 
 
 --
@@ -1074,6 +1076,14 @@ ALTER TABLE ONLY public.questions
 
 ALTER TABLE ONLY public.tags
     ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: themes themes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.themes
+    ADD CONSTRAINT themes_pkey PRIMARY KEY (id);
 
 
 --
