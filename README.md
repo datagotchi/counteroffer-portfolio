@@ -2,7 +2,9 @@
 
 **Decentralized recruiter engagement & sovereign opportunity negotiation platform.**
 
-`counteroffer` is a Datagotchi Labs career primitive designed to return structural power to candidates during the hiring process. Built as a sovereign, candidate-owned interface, it bypasses corporate ATS (Applicant Tracking System) gatekeeping, standardizes compensation and role queries, and provides an auditable, candidate-driven medium for negotiating job opportunities.
+`counteroffer` is a Datagotchi Labs career primitive designed to return structural power to candidates during the hiring process. Built as a sovereign, candidate-owned interface, it bypasses corporate ATS (Applicant Tracking System) gatekeeping, standardizes compensation and role queries, and provides an auditable, candidate-driven medium for negotiating job opportunities based on themed skill profiles and verified experience nodes.
+
+![Counteroffer Themed Portfolio Preview](counteroffer-preview.png)
 
 ---
 
@@ -14,7 +16,7 @@ The traditional recruitment ecosystem is built on **asymmetric information** and
 * **Fragmented Deal Tracking:** Job seekers manage offers across disjointed email threads, LinkedIn messages, and recruiter spreadsheets.
 
 **`counteroffer` solves this by:**
-1. Establishing a **candidate-first interaction model** where recruiters engage with structured candidate portfolios on equal terms.
+1. Establishing a **candidate-first interaction model** where candidates present themed pitches (e.g., *AI Architect*) filtered by explicit skill distributions.
 2. Standardizing negotiation primitives (compensation ranges, stack alignment, remote flexibility, title expectations).
 3. Keeping candidate historical data and active deal flows completely **sovereign and local-first**.
 
@@ -25,7 +27,7 @@ The traditional recruitment ecosystem is built on **asymmetric information** and
 ```mermaid
 graph LR
     A[Recruiter Outreach / Inquiry] --> B{counteroffer Platform Engine}
-    C[Candidate Portfolio & Comp Ranges] --> B
+    C[Candidate Themed Profile & Comp Ranges] --> B
     
     B -->|Structured Negotiation Thread| D[Direct Candidate-Recruiter Messaging]
     B -->|Track Deal State| E[(Sovereign Local Store)]
